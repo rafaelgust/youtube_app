@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../utils/key_api.dart';
+import '../utils/key.dart';
 
 abstract class IFetchApi {
   Future apiByGet(String search, String type);
