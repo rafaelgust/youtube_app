@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'core/services/fetch_service.dart';
+import 'modules/home/home_module.dart';
 
 class AppModule extends Module {
   @override
@@ -9,5 +10,7 @@ class AppModule extends Module {
   ];
 
   @override
-  final List<ModularRoute> routes = [];
+  final List<ModularRoute> routes = [
+    ModuleRoute(Modular.initialRoute, module: HomeModule()),
+  ];
 }
