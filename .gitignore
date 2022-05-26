@@ -47,4 +47,4 @@ app.*.map.json
 /android/app/release
 
 # API YOUTUBE
-lib/utils/key_api.dart
+lib/app/core/utils/key_api.dart
