@@ -5,6 +5,7 @@ import '../../../core/services/debounce_service.dart';
 import '../bloc/events/search_events.dart';
 import '../bloc/search_bloc.dart';
 import '../bloc/states/search_states.dart';
+import '../components/item_search.dart';
 
 class SearchView extends StatefulWidget {
   final String search;
@@ -38,7 +39,7 @@ class _SearchViewState extends State<SearchView> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,9 +92,15 @@ class _SearchViewState extends State<SearchView> {
                     final list = (bloc.state as SearchSucessState).list;
 
                     return ListView.builder(
-                        itemCount: list?.length,
-                        itemBuilder: (context, index) =>
-                            Text('${list?[index].title}'));
+                      itemCount: list?.length,
+                      itemBuilder: (context, index) => ItemSearch(
+                        list![index],
+                        goPageVideo: () =>
+                            Modular.to.pushNamed('/video/${list[index].id}'),
+                        goPageChannel: () => Modular.to
+                            .pushNamed('/channel/${list[index].channelId}'),
+                      ),
+                    );
                   },
                 ),
               ),
