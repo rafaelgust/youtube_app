@@ -1,7 +1,9 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:youtube_app/app/modules/home/bloc/recommended_list_bloc.dart';
-import 'package:youtube_app/app/modules/home/repositories/recommended_list_repository.dart';
 
+import 'bloc/playlist_bloc.dart';
+import 'bloc/recommended_list_bloc.dart';
+import 'repositories/playlist_repository.dart';
+import 'repositories/recommended_list_repository.dart';
 import 'views/home_view.dart';
 
 class HomeModule extends Module {
@@ -9,6 +11,9 @@ class HomeModule extends Module {
   final List<Bind> binds = [
     Bind.factory((i) => RecommendedListRepository(i())),
     Bind.singleton<RecommendedListBloc>((i) => RecommendedListBloc(i()),
+        onDispose: (bloc) => bloc.close()),
+    Bind.factory((i) => PlayListRepository(i())),
+    Bind.singleton<PlayListBloc>((i) => PlayListBloc(i()),
         onDispose: (bloc) => bloc.close()),
   ];
 

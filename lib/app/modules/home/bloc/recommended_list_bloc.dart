@@ -15,6 +15,7 @@ class RecommendedListBloc
       Emitter<RecommendedListStates> emit) async {
     emit(LoadingRecommendedList());
     final list = await repository.getList(event.recommendedBySearch);
+
     emit(SucessRecommendedList(list));
   }
 }

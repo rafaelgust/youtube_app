@@ -50,7 +50,7 @@ class _RecommendedListState extends State<RecommendedList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 360,
+        height: 280,
         child: StreamBuilder<Object>(
             stream: bloc.stream,
             builder: (context, state) {
@@ -77,7 +77,7 @@ class _RecommendedListState extends State<RecommendedList> {
                           controller: controller,
                           reverse: true,
                           itemBuilder: (context, index) {
-                            return InkWell(
+                            return GestureDetector(
                               onTap: () => Modular.to
                                   .pushNamed('/video/${list[index].id}'),
                               child: Align(
@@ -89,10 +89,10 @@ class _RecommendedListState extends State<RecommendedList> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black12,
-                                        offset: Offset(3.0, 3.0),
+                                        color: Colors.black.withOpacity(0.3),
+                                        offset: const Offset(3.0, 3.0),
                                         blurRadius: 5.0,
                                       )
                                     ],
@@ -105,7 +105,7 @@ class _RecommendedListState extends State<RecommendedList> {
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       const SizedBox(height: 5),
@@ -126,7 +126,7 @@ class _RecommendedListState extends State<RecommendedList> {
                   ],
                 );
               }
-              if (state is ErrorRecommendedList) {}
+              if (bloc.state is ErrorRecommendedList) {}
               return const SizedBox.shrink();
             }));
   }

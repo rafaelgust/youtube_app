@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../components/playlist_component.dart';
 import '../components/recommended_list_component.dart';
 import '../components/search_component.dart';
 
@@ -13,10 +14,9 @@ class HomeView extends StatelessWidget {
           child: ListView(
         physics: const BouncingScrollPhysics(),
         children: const [
-          Center(
-            child: SizedBox(width: 500, child: SearchBar()),
-          ),
-          RecommendedList(recommended: 'Google'),
+          Center(child: SizedBox(width: 500, child: SearchBar())),
+          SizedBox(width: 500, child: RecommendedList(recommended: 'Flutter')),
+          PlayList(playlistId: 'PLCXgRxZT4r82Vqb8EdJNDeBTQn-mbOMMY'),
         ],
       )),
     );
