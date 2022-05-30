@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../repositories/recommended_list_repository.dart';
 import 'events/recommended_list_events.dart';
@@ -8,7 +8,7 @@ class RecommendedListBloc
     extends Bloc<RecommendedListEvents, RecommendedListStates> {
   final IRecommendedListRepository repository;
   RecommendedListBloc(this.repository) : super(InitialRecommendedList()) {
-    on<CallRecommendedListEvent>((event, emit) => getResult);
+    on<CallRecommendedListEvent>((event, emit) => getResult(event, emit));
   }
 
   getResult(CallRecommendedListEvent event,

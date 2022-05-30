@@ -11,7 +11,7 @@ class RecommendedListRepository extends IRecommendedListRepository {
   RecommendedListRepository(this.service);
   @override
   Future getList(String? recommendedBySearch) async {
-    var result = await service.apiByGet('Flutter', 'search');
+    var result = await service.apiByGet(recommendedBySearch!, 'search');
 
     final list = (result["items"] as List)
         .map((e) => RecommendedListModel.fromJson(e))

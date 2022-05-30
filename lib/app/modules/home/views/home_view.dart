@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../components/recommended_list_component.dart';
 import '../components/search_component.dart';
 
 class HomeView extends StatelessWidget {
@@ -11,10 +12,11 @@ class HomeView extends StatelessWidget {
       body: SafeArea(
           child: ListView(
         physics: const BouncingScrollPhysics(),
-        children: [
-          const Center(
+        children: const [
+          Center(
             child: SizedBox(width: 500, child: SearchBar()),
           ),
+          RecommendedList(recommended: 'Flutter'),
         ],
       )),
     );
