@@ -2,6 +2,7 @@ import '../../../core/models/thumbnail_model.dart';
 
 class PlayListModel {
   String? id;
+  String? idPlaylist;
   String? title;
   String? channelTitle;
   String? channelId;
@@ -10,6 +11,7 @@ class PlayListModel {
 
   PlayListModel({
     this.id,
+    this.idPlaylist,
     this.title,
     this.channelId,
     this.channelTitle,
@@ -18,7 +20,8 @@ class PlayListModel {
   });
 
   PlayListModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['snippet']['resourceId']['videoId'];
+    idPlaylist = json['idPlaylist'];
     title = json['snippet']['title'];
     channelTitle = json['snippet']['channelTitle'];
     channelId = json['snippet']['channelId'];

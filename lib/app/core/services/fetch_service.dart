@@ -30,15 +30,15 @@ class HttpFetchApi implements IFetchApi {
   }
 
   @override
-  Future apiPlaylist(String playlist) async {
+  Future apiPlaylist(String playlistId) async {
     Map<String, String> headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
     Map<String, String> data;
-    data = {'part': 'snippet', 'key': API_KEY, 'id': playlist};
+    data = {'part': 'snippet', 'key': API_KEY, 'playlistId': playlistId};
 
     Uri uri =
-        Uri.https('youtube.googleapis.com', '/youtube/v3/playlists', data);
+        Uri.https('youtube.googleapis.com', '/youtube/v3/playlistItems', data);
 
     var response = await http.get(uri, headers: headers);
     if (response.statusCode == 200) {
