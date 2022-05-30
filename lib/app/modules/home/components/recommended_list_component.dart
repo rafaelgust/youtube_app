@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../bloc/recommended_list_bloc.dart';
 import '../bloc/events/recommended_list_events.dart';
 import '../bloc/states/recommended_list_states.dart';
+import '../controllers/card_scroll_controller.dart';
 import 'card_scroll_component.dart';
 
 class RecommendedList extends StatefulWidget {
@@ -17,6 +18,7 @@ class RecommendedList extends StatefulWidget {
 class _RecommendedListState extends State<RecommendedList> {
   final bloc = Modular.get<RecommendedListBloc>();
   late final PageController controller;
+  final cardscrollController = CardScrollController();
   late double? currentPage = 0.0;
 
   @override
@@ -29,13 +31,16 @@ class _RecommendedListState extends State<RecommendedList> {
   @override
   void dispose() {
     controller.dispose();
+    cardscrollController.dispose();
     super.dispose();
   }
 
   _listener() {
-    setState(() {
+    cardscrollController.page = controller.page;
+    /* setState(() {
+      
       currentPage = controller.page;
-    });
+    }); */
   }
 
   @override
@@ -57,7 +62,7 @@ class _RecommendedListState extends State<RecommendedList> {
                 return Stack(
                   children: [
                     CardScroll(
-                      page: currentPage,
+                      controller: cardscrollController,
                       list: list,
                     ),
                     Positioned.fill(
@@ -67,9 +72,6 @@ class _RecommendedListState extends State<RecommendedList> {
                           itemCount: list.length,
                           controller: controller,
                           reverse: true,
-                          onPageChanged: (page) {
-                            debugPrint('$page');
-                          },
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () => Modular.to
