@@ -19,13 +19,12 @@ class _RecommendedListState extends State<RecommendedList> {
   final bloc = Modular.get<RecommendedListBloc>();
   late final PageController controller;
   final cardscrollController = CardScrollController();
-  late double? currentPage = 0.0;
+  bool started = false;
 
   @override
   void initState() {
     super.initState();
-    bloc.add(CallRecommendedListEvent('Flutter'));
-    controller = PageController(initialPage: 0)..addListener(_listener);
+    bloc.add(CallRecommendedListEvent(widget.recommended));
   }
 
   @override
@@ -35,12 +34,17 @@ class _RecommendedListState extends State<RecommendedList> {
     super.dispose();
   }
 
+  _startController(List list) {
+    if (!started) {
+      started = true;
+      controller = PageController(initialPage: list.length - 1)
+        ..addListener(_listener);
+      cardscrollController.page = (list.length - 1).toDouble();
+    }
+  }
+
   _listener() {
     cardscrollController.page = controller.page;
-    /* setState(() {
-      
-      currentPage = controller.page;
-    }); */
   }
 
   @override
@@ -58,7 +62,7 @@ class _RecommendedListState extends State<RecommendedList> {
               }
               if (bloc.state is SucessRecommendedList) {
                 final list = (bloc.state as SucessRecommendedList).list!;
-
+                _startController(list);
                 return Stack(
                   children: [
                     CardScroll(
@@ -80,7 +84,6 @@ class _RecommendedListState extends State<RecommendedList> {
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
                                   width: 240,
-                                  height: 60,
                                   padding: const EdgeInsets.all(10.0),
                                   margin: const EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
@@ -95,21 +98,22 @@ class _RecommendedListState extends State<RecommendedList> {
                                     ],
                                   ),
                                   child: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
+                                      Text(
+                                        '${list[index].title}',
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
                                       Text(
                                         '${list[index].channelTitle}',
                                         style: const TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        '${list[index].description}',
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 8,
                                         ),
                                       ),
                                     ],

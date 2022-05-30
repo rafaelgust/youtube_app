@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
           Center(
             child: SizedBox(width: 500, child: SearchBar()),
           ),
-          RecommendedList(recommended: 'Flutter'),
+          RecommendedList(recommended: 'Google'),
         ],
       )),
     );
