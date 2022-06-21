@@ -31,11 +31,28 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 500,
+      height: 45,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey.withOpacity(0.5),
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.circular(4.0),
+      ),
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Icon(
+              Icons.search,
+              color: Colors.grey,
+              size: 20,
+            ),
+          ),
           Expanded(
             child: TextField(
               onChanged: (value) => {
@@ -48,35 +65,18 @@ class _SearchBarState extends State<SearchBar> {
               controller: _searchText,
               decoration: const InputDecoration(
                 border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
+                hintText: "Search video by title",
+                hintStyle: TextStyle(color: Colors.grey),
                 contentPadding:
-                    EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                hintText: 'Procurar vídeo',
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                isDense: true,
+              ),
+              style: const TextStyle(
+                fontSize: 14.0,
+                color: Colors.black,
               ),
             ),
           ),
-          Container(
-            width: 50,
-            height: 55,
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-            ),
-            child: InkWell(
-              child: const Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-              onTap: () => _search(),
-            ),
-          )
         ],
       ),
     );
