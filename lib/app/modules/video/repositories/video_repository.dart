@@ -12,7 +12,7 @@ class VideoRepository implements IVideoRepository {
   @override
   Future call(String? videoId) async {
     var result = await service.apiVideo(videoId!);
-    print(result);
+
     final list =
         (result["items"] as List).map((e) => VideoModel.fromJson(e)).toList();
 

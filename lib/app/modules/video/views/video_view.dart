@@ -18,7 +18,10 @@ class VideoView extends StatefulWidget {
 
 class _VideoViewState extends State<VideoView> {
   final blocVideo = Modular.get<VideoBloc>();
-  late YoutubePlayerController _controller;
+  late YoutubePlayerController controller;
+
+  int _volume = 100;
+  bool _muted = false;
 
   @override
   void initState() {
@@ -28,19 +31,50 @@ class _VideoViewState extends State<VideoView> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
   _loadVideo(String videoId) {
-    _controller = YoutubePlayerController(
+    blocVideo.add(GetVideo(videoId));
+    controller = YoutubePlayerController(
       initialVideoId: videoId,
       flags: const YoutubePlayerFlags(
         autoPlay: true,
-        mute: true,
       ),
     );
-    blocVideo.add(GetVideo(videoId));
+  }
+
+  mute() {
+    _muted ? controller.unMute() : controller.mute();
+    setState(() {
+      _muted = !_muted;
+    });
+  }
+
+  volume(bool setVolume) {
+    if (setVolume && _volume < 100) {
+      _volume = _volume + 10;
+    }
+
+    if (!setVolume && _volume > 0) {
+      _volume = _volume - 10;
+    }
+
+    controller.setVolume(_volume);
+    if (_volume == 0) {
+      controller.mute();
+      setState(() {
+        _muted = true;
+      });
+    }
+
+    if (_muted && _volume > 0) {
+      controller.unMute();
+      setState(() {
+        _muted = false;
+      });
+    }
   }
 
   goToChannel(String channelId) => Modular.to.pushNamed('/channel/$channelId');
@@ -48,30 +82,65 @@ class _VideoViewState extends State<VideoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () => Modular.to.pop(),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.remove,
+              color: Colors.white,
+            ),
+            onPressed: () => volume(false),
+          ),
+          IconButton(
+            icon: Icon(
+              _muted ? Icons.volume_off : Icons.volume_up,
+              color: Colors.white,
+            ),
+            onPressed: mute,
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: () => volume(true),
+          )
+        ],
+      ),
+      extendBodyBehindAppBar: true,
       body: StreamBuilder(
-          stream: blocVideo.stream,
-          builder: (context, snapshot) {
-            if (blocVideo.state is VideoIdle ||
-                blocVideo.state is VideoLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (blocVideo.state is VideoError) {
-              return const Center(child: Text('error'));
-            }
+        stream: blocVideo.stream,
+        builder: (context, snapshot) {
+          if (blocVideo.state is VideoIdle || blocVideo.state is VideoLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (blocVideo.state is VideoError) {
+            return const Center(child: Text('error'));
+          }
 
-            if (blocVideo.state is VideoSucess) {
-              final video = (blocVideo.state as VideoSucess).video;
+          if (blocVideo.state is VideoSucess) {
+            final video = (blocVideo.state as VideoSucess).video;
 
-              return VideoContent(
-                playerController: _controller,
-                videoInfo: video.first,
-                goToChannel: goToChannel,
-              );
-            }
+            return VideoContent(
+              playerController: controller,
+              videoInfo: video.first,
+              goToChannel: goToChannel,
+            );
+          }
 
-            return const SizedBox.shrink();
-          }),
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }

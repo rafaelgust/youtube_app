@@ -13,6 +13,7 @@ extension FormatterDateTime on String {
 class InfoBarVideo extends StatelessWidget {
   final String? title, author, description, created;
   final VoidCallback goPageChannel;
+
   const InfoBarVideo({
     super.key,
     required this.title,
@@ -29,7 +30,7 @@ class InfoBarVideo extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextButton(
+          child: OutlinedButton(
             onPressed: goPageChannel,
             child: Text(
               '$author',
@@ -41,25 +42,31 @@ class InfoBarVideo extends StatelessWidget {
             ),
           ),
         ),
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            '$title',
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            '$created'.publishAt(),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            '$description',
-            style: const TextStyle(fontWeight: FontWeight.w700),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  Text(
+                    '$title',
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '$created'.publishAt(),
+                    ),
+                  ),
+                  Text(
+                    '$description',
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ],

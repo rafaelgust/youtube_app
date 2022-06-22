@@ -30,16 +30,16 @@ class VideoModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['publishedAt'] = publishedAt;
-    _data['channelId'] = channelId;
-    _data['title'] = title;
-    _data['description'] = description;
-    _data['channelTitle'] = channelTitle;
-    _data['categoryId'] = categoryId;
-    _data['liveBroadcastContent'] = liveBroadcastContent;
-    _data['localized'] = localized.toJson();
-    return _data;
+    final data = <String, dynamic>{};
+    data['publishedAt'] = publishedAt;
+    data['channelId'] = channelId;
+    data['title'] = title;
+    data['description'] = description;
+    data['channelTitle'] = channelTitle;
+    data['categoryId'] = categoryId;
+    data['liveBroadcastContent'] = liveBroadcastContent;
+    data['localized'] = localized.toJson();
+    return data;
   }
 }
 
@@ -57,9 +57,9 @@ class Localized {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['title'] = title;
-    _data['description'] = description;
-    return _data;
+    final data = <String, dynamic>{};
+    data['title'] = title;
+    data['description'] = description;
+    return data;
   }
 }

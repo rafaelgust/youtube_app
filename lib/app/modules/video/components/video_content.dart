@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../models/video_model.dart';
+import 'video_header.dart';
 import 'video_info.dart';
 
 class VideoContent extends StatelessWidget {
   final VideoModel videoInfo;
   final YoutubePlayerController playerController;
   final Function(String channelId) goToChannel;
+
   const VideoContent({
     super.key,
     required this.playerController,
@@ -23,13 +25,16 @@ class VideoContent extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            VideoHeader(playerController: playerController),
             player,
-            InfoBarVideo(
-              author: videoInfo.channelTitle,
-              title: videoInfo.title,
-              description: videoInfo.description,
-              created: videoInfo.publishedAt,
-              goPageChannel: () => goToChannel(videoInfo.channelId),
+            Expanded(
+              child: InfoBarVideo(
+                author: videoInfo.channelTitle,
+                title: videoInfo.title,
+                description: videoInfo.description,
+                created: videoInfo.publishedAt,
+                goPageChannel: () => goToChannel(videoInfo.channelId),
+              ),
             ),
           ],
         );
