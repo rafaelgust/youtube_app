@@ -6,6 +6,9 @@ import '../bloc/events/video_events.dart';
 import '../bloc/states/video_states.dart';
 import '../bloc/video_bloc.dart';
 
+import '../components/volume_bar.dart';
+import '../controllers/audio_controller.dart';
+
 import '../components/video_content.dart';
 
 class VideoView extends StatefulWidget {
@@ -18,10 +21,8 @@ class VideoView extends StatefulWidget {
 
 class _VideoViewState extends State<VideoView> {
   final blocVideo = Modular.get<VideoBloc>();
+  final audioController = Modular.get<AudioController>();
   late YoutubePlayerController controller;
-
-  int _volume = 100;
-  bool _muted = false;
 
   @override
   void initState() {
@@ -43,38 +44,7 @@ class _VideoViewState extends State<VideoView> {
         autoPlay: true,
       ),
     );
-  }
-
-  mute() {
-    _muted ? controller.unMute() : controller.mute();
-    setState(() {
-      _muted = !_muted;
-    });
-  }
-
-  volume(bool setVolume) {
-    if (setVolume && _volume < 100) {
-      _volume = _volume + 10;
-    }
-
-    if (!setVolume && _volume > 0) {
-      _volume = _volume - 10;
-    }
-
-    controller.setVolume(_volume);
-    if (_volume == 0) {
-      controller.mute();
-      setState(() {
-        _muted = true;
-      });
-    }
-
-    if (_muted && _volume > 0) {
-      controller.unMute();
-      setState(() {
-        _muted = false;
-      });
-    }
+    audioController.controller = controller;
   }
 
   goToChannel(String channelId) => Modular.to.pushNamed('/channel/$channelId');
@@ -94,27 +64,7 @@ class _VideoViewState extends State<VideoView> {
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.remove,
-              color: Colors.white,
-            ),
-            onPressed: () => volume(false),
-          ),
-          IconButton(
-            icon: Icon(
-              _muted ? Icons.volume_off : Icons.volume_up,
-              color: Colors.white,
-            ),
-            onPressed: mute,
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            onPressed: () => volume(true),
-          )
+          VolumeBar(controller: audioController),
         ],
       ),
       extendBodyBehindAppBar: true,

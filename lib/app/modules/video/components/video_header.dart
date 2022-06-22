@@ -43,14 +43,6 @@ class _VideoHeaderState extends State<VideoHeader> {
     }
   }
 
-  MaterialColor _sound() {
-    if (widget.playerController.value.volume == 0) {
-      return Colors.red;
-    } else {
-      return Colors.green;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,7 +51,7 @@ class _VideoHeaderState extends State<VideoHeader> {
       height: 80,
       child: LinearProgressIndicator(
         backgroundColor: Colors.transparent,
-        color: _sound(),
+        color: Colors.blueAccent,
         value: _percent,
       ),
     );
