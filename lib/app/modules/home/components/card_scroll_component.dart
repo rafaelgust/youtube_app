@@ -8,7 +8,11 @@ import '../models/recommended_list_model.dart';
 class CardScroll extends StatefulWidget {
   final List<RecommendedListModel>? list;
   final CardScrollController controller;
-  const CardScroll({super.key, required this.list, required this.controller});
+  const CardScroll({
+    super.key,
+    required this.list,
+    required this.controller,
+  });
 
   @override
   State<CardScroll> createState() => _CardScrollState();

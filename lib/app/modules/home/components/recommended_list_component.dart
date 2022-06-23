@@ -50,6 +50,7 @@ class _RecommendedListState extends State<RecommendedList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+        width: 500,
         height: 280,
         child: StreamBuilder<Object>(
             stream: bloc.stream,
@@ -66,8 +67,8 @@ class _RecommendedListState extends State<RecommendedList> {
                 return Stack(
                   children: [
                     CardScroll(
-                      controller: cardscrollController,
                       list: list,
+                      controller: cardscrollController,
                     ),
                     Positioned.fill(
                       bottom: 10,
@@ -80,45 +81,55 @@ class _RecommendedListState extends State<RecommendedList> {
                             return GestureDetector(
                               onTap: () => Modular.to
                                   .pushNamed('/video/${list[index].id}'),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  width: 240,
-                                  padding: const EdgeInsets.all(10.0),
-                                  margin: const EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.3),
-                                        offset: const Offset(3.0, 3.0),
-                                        blurRadius: 5.0,
-                                      )
-                                    ],
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    color: Colors.transparent,
                                   ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        '${list[index].title}',
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                        ),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      width: 240,
+                                      padding: const EdgeInsets.all(10.0),
+                                      margin: const EdgeInsets.all(10.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.3),
+                                            offset: const Offset(3.0, 3.0),
+                                            blurRadius: 5.0,
+                                          )
+                                        ],
                                       ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        '${list[index].channelTitle}',
-                                        style: const TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            '${list[index].title}',
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            '${list[index].channelTitle}',
+                                            style: const TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             );
                           }),

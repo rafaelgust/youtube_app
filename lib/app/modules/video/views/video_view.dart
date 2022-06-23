@@ -30,12 +30,6 @@ class _VideoViewState extends State<VideoView> {
     _loadVideo('${widget.video}');
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
   _loadVideo(String videoId) {
     blocVideo.add(GetVideo(videoId));
     controller = YoutubePlayerController(
@@ -49,6 +43,10 @@ class _VideoViewState extends State<VideoView> {
 
   goToChannel(String channelId) => Modular.to.pushNamed('/channel/$channelId');
 
+  goBack() {
+    Modular.to.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +55,7 @@ class _VideoViewState extends State<VideoView> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () => Modular.to.pop(),
+          onPressed: goBack,
           icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.white,

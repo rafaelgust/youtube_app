@@ -8,7 +8,7 @@ import '../bloc/states/search_states.dart';
 import '../components/item_search.dart';
 
 class SearchView extends StatefulWidget {
-  final String search;
+  final String? search;
   const SearchView({super.key, required this.search});
 
   @override
@@ -24,7 +24,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   void initState() {
     super.initState();
-    _searchText.text = widget.search;
+    _searchText.text = '${widget.search}';
     bloc.add(SearchListVideoEvent(widget.search));
   }
 

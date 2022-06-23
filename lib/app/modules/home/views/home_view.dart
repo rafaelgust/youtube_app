@@ -14,8 +14,8 @@ class HomeView extends StatelessWidget {
           child: ListView(
         physics: const BouncingScrollPhysics(),
         children: const [
-          SizedBox(width: 500, child: RecommendedList(recommended: 'Flutter')),
           SearchBar(),
+          RecommendedList(recommended: 'Flutter'),
           PlayList(playlistId: 'PLCXgRxZT4r82Vqb8EdJNDeBTQn-mbOMMY'),
           PlayList(playlistId: 'PLK3BZE3cGU6h2nIXa0yZHHX_qWtsfwdnc'),
         ],
